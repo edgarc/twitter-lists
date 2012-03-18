@@ -1,0 +1,146 @@
+h2 small {
+	display:inline;
+}
+
+.public	{
+	color: #468847;
+}
+
+.private{
+	color: #B94A48;
+}
+
+.list-name{
+	height: 69px;
+}
+
+.display, .display h1{
+	display: inline;
+}
+
+.accordion-heading .accordion-toggle {
+	display: inline;
+	padding:0;
+}
+
+img.twitter-profile{
+	width: 48px;
+	height: 48px;
+	border: 3px;
+	color: #B94A48;
+	border-style:solid;
+	border-radius: 5px;
+}
+
+.avatar{
+	width: 32px;
+	height: 32px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.twitter-profile.true{
+	color: #468847;
+}
+
+.editing .display,
+.list .edit {
+    display: none;
+ }
+
+.editing .edit {
+    display: block;
+}
+
+.editing input {
+    font-size: 24px;
+    font-family: inherit;
+    line-height: 1.6em;
+    border: 0;
+    outline: none;
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+
+	font-weight: bold;
+	font-size: 30px;
+	line-height: 36px;
+	color: #B94A48;
+	height: 26px;
+	width: 200px;
+	padding: 8px 15px;
+}
+
+div.user{
+	display: inline;
+	cursor: move;
+}
+
+.right-nav{
+	position: fixed;
+	top: 150px;
+	right: 90px;
+}
+
+.close{
+	margin-right: 10px;
+	margin-top: 10px;
+	display: none;
+}
+
+.list-name:hover .close, .list-name:hover .edit-icon, .list-name:hover .refresh {
+    display: inline;
+}
+
+.edit-icon, .refresh{
+	display: none;
+}
+.edit .btn-group{
+	display: inline-block;
+}
+.stats{
+	font-style: italic;
+	font-size: 11px;
+	padding-left: 20px;
+}
+
+#loading {
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  display: block;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 99;
+  text-align: center;
+}
+
+#loading-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 100px;
+  z-index: 100;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.dragOver{
+	border: 1px dashed #468847;
+}
+
+.dragOverUnlink{
+	border: 1px dashed #B94A48;
+}
+
+.unlisted{
+	padding-top:90px;
+}
