@@ -373,12 +373,19 @@
 		this.$("#unlisted .total").html(" ("+unlistedUsers+")")
 		friends.each(this.addOne);
 		this.initialized = true;
-		this.$(".collapse").collapse('show');
+		console.log(this.$("#unlisted-members.collapse"));
+		this.$("#unlisted-members.collapse").collapse('show');
     },
+
+	refresh: function(){
+		this.initialized=false;
+		this.$("#friends-container").html("");
+		this.findUnlistedFriends();
+	},
 
 	findUnlistedFriends: function(){
 		if (! this.initialized){
-			this.collection.reset();
+			this.collection.reset({silent: true});
 			unlisted = []
 			var friends= []; 
 			friends = App.Models.friends.get("ids");

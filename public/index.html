@@ -97,7 +97,7 @@
 		<div class="list accordion-group">
 			<div class="list-name accordion-heading">
 				<div class="display">			        
-					<h1>
+					<h1 class="list-title">
 						<a id="unlisted" class="title accordion-toggle" data-toggle="collapse" data-parent="#list-container" href="#unlisted-members">unlisted
 						<small><span class="total"><span></small></a>
 					</h1>
@@ -120,8 +120,8 @@
 			<div class="display">			        
 				<i class="icon mode"></i>
 				<span class="label">{{mode}}</span>
-				<h1>
-					<a class="title {{mode}} accordion-toggle" data-toggle="collapse" data-parent="#list-container" href="#members{{id}}">{{name}}</a>
+				<h1 class="list-title">
+					<a class="title {{mode}} accordion-toggle" data-toggle="collapse" data-parent="#list-container" href="#members{{id}}" rel="tooltip" title="{{name}}">{{name}}</a>
 				</h1>
 				<a rel="tooltip" title="refresh list" class="refresh" href="#"><i class="icon-refresh"></i></a>
 				<a rel="tooltip" title="edit list name" class="edit-icon" href="#"><i class="icon-edit"></i></a>

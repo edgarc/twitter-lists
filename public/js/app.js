@@ -41,7 +41,7 @@ App.Routers.TwitterLists = Backbone.Router.extend({
 
 		App.Collections.unlistedFriends = new App.Collections.UnlistedFriends();
 		App.Views.unlistedfriendsView = new  App.Views.UnlistedFriendsView(App.Collections.unlistedFriends);
-		App.Utils.dispatcher.on("lists_loaded", App.Views.unlistedfriendsView.findUnlistedFriends)
+		App.Utils.dispatcher.on("lists_loaded", App.Views.unlistedfriendsView.refresh)
 		
 		App.Models.friends = new App.Models.FriendsIds();
 		App.Models.friends.fetch();

@@ -1,5 +1,14 @@
+h1.list-title{
+	display: inline-block;
+	overflow: hidden;
+	max-width: 160px;
+	white-space: nowrap;
+	text-overflow: ellipsis
+}
+
 h2 small {
 	display:inline;
+	overflow: hidden;
 }
 
 .public	{
@@ -10,11 +19,11 @@ h2 small {
 	color: #B94A48;
 }
 
-.list-name{
+/*.list-name{
 	height: 69px;
-}
+}*/
 
-.display, .display h1{
+.display{
 	display: inline;
 }
 
