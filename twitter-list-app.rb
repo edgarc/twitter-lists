@@ -18,6 +18,10 @@ end
 
 enable :sessions
 
+configure :production do
+  require 'newrelic_rpm'
+end
+
 before do
   session[:oauth] ||= {}  
   @oauth_callback = ENV["oauth_callback"] || settings.oauth_callback

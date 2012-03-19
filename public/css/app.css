@@ -1,9 +1,10 @@
 h1.list-title{
 	display: inline-block;
 	overflow: hidden;
-	max-width: 160px;
+/*	max-width: 160px;
 	white-space: nowrap;
 	text-overflow: ellipsis
+*/
 }
 
 h2 small {
