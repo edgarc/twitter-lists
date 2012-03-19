@@ -63,7 +63,6 @@
     },
 
 	update: function(){
-		console.log("update");
 		this.refresh();
 	},
 
@@ -237,8 +236,8 @@
 			this.model.set({ new_user_id: userId}); 
 			this.model.save( "new_user_id", userId, {
 				success: this.dropSuccess,
-				error: function(event){
-					console.log("error");
+				error: function(error){
+					console.log(error);
 			}});
 			
 		}else if(listId == this.model.get("id_str")){
@@ -246,8 +245,8 @@
 			this.model.set({ unlink_user_id: userId}); 
 			this.model.save( "unlink_user_id", userId, {
 				success: this.loadListUsers,
-				error: function(event){
-					console.log("error");
+				error: function(error){
+					console.log(error);
 			}});
 		}
 	},
@@ -373,7 +372,6 @@
 		this.$("#unlisted .total").html(" ("+unlistedUsers+")")
 		friends.each(this.addOne);
 		this.initialized = true;
-		console.log(this.$("#unlisted-members.collapse"));
 		this.$("#unlisted-members.collapse").collapse('show');
     },
 
@@ -445,8 +443,8 @@
 		},
 		{
 			success: this.onListCreated,
-			error: function(response){
-				console.log(response);
+			error: function(error){
+				console.log(error);
 			}
 		});
 	},
