@@ -11,9 +11,6 @@
 		"dragstart": "handleDragStart",
 	},
 	
-	initialize: function(){
-	},
-	
 	render: function(){
 		$(this.el).html(this.template(this.model.toJSON()));
 		return this;
@@ -112,10 +109,12 @@
 	checkListStatus: function(){
 		var loaded = true;
 		for (var list in App.Utils.ListQueue) {
-			if (App.Utils.ListQueue[list] == false) 
+			if (App.Utils.ListQueue[list] === false){ 
 				loaded = false;
+				break;
+			}
 		}
-		if (loaded == true) App.Utils.dispatcher.trigger("lists_loaded");
+		if (loaded === true) App.Utils.dispatcher.trigger("lists_loaded");
 	},
 	
 	getListMembers: function(collection, response){
@@ -159,15 +158,15 @@
 	},
 	
 	updateOnEnter: function(e){
-		if (e.keyCode == 27) $(this.el).removeClass("editing");
-		if (e.keyCode == 13) this.close();
+		if (e.keyCode === 27) $(this.el).removeClass("editing");
+		if (e.keyCode === 13) this.close();
 	},
 	
 	close: function(){
 		var new_name = this.$('.list-input').val();
 		var new_mode = this.$('button.active').text();
 		
-		if(new_name != this.model.get("name") || new_mode != this.model.get("mode")){
+		if(new_name !== this.model.get("name") || new_mode !== this.model.get("mode")){
 			this.model.save({name: new_name, mode:new_mode}, {success: this.update});
 		}
 		$(this.el).removeClass("editing");
@@ -229,8 +228,8 @@
 
 		var data = e.originalEvent.dataTransfer.getData('Text');
 		var params = data.split("-");
-		var userId=params[0];
-		var listId=params[1];
+		var userId = params[0];
+		var listId = params[1];
 		if(listId != this.model.get("id_str")){
 			//fix this hack where sending the new_user_id
 			this.model.set({ new_user_id: userId}); 
@@ -368,7 +367,7 @@
     },
 
 	addAll: function(friends) {
-		var unlistedUsers=friends.length.toString();
+		var unlistedUsers = friends.length.toString();
 		this.$("#unlisted .total").html(" ("+unlistedUsers+")")
 		friends.each(this.addOne);
 		this.initialized = true;
@@ -383,7 +382,7 @@
 
 	findUnlistedFriends: function(){
 		if (! this.initialized){
-			this.collection.reset({silent: true});
+			this.collection.reset();
 			unlisted = []
 			var friends= []; 
 			friends = App.Models.friends.get("ids");

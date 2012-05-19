@@ -1,19 +1,17 @@
-require 'oauth'
 require 'rubygems'
 require 'sinatra'
+require 'omniauth'
+require 'omniauth-twitter'
 require "sinatra/reloader" if development? #auto-reload on development
 require "sinatra/config_file"
 require 'twitter'
 require 'json'
 
-config_file 'config.yml'
+config_file 'config/twitter.yml'
 
-#enable logging
 use Rack::Logger
-helpers do
-  def logger
-    request.logger
-  end
+use OmniAuth::Builder do
+  provider :twitter, ENV["consumer_key"] || settings.consumer_key, ENV["consumer_secret"] || settings.consumer_secret
 end
 
 enable :sessions
@@ -21,56 +19,68 @@ enable :sessions
 configure :production do
   require 'newrelic_rpm'
 end
-
-before do
-  session[:oauth] ||= {}  
-  @oauth_callback = ENV["oauth_callback"] || settings.oauth_callback
-  @consumer_key = ENV["consumer_key"] || settings.consumer_key
-  @consumer_secret = ENV["consumer_secret"] || settings.consumer_secret
-  @oauth_consumer ||= OAuth::Consumer.new(@consumer_key, @consumer_secret, 
-    :site => 'http://api.twitter.com', :request_endpoint => 'http://api.twitter.com', :sign_in => true)
+ 
+helpers do
+  def logger
+    request.logger
+  end
+  
+  #Generic error response
+  def error_response(error)
+    content_type :json
+    status 400
+    {:result => 'error', :message => error.message}.to_json
+  end
 end
 
 def client
   Twitter.configure do |config|
-    config.consumer_key = @consumer_key
-    config.consumer_secret = @consumer_secret
+    config.consumer_key = ENV["consumer_key"] || settings.consumer_key
+    config.consumer_secret = ENV["consumer_secret"] || settings.consumer_secret
     config.oauth_token = session[:oauth]['access_token']
     config.oauth_token_secret = session[:oauth]['access_secret']
     config.gateway = ENV['APIGEE_TWITTER_API_ENDPOINT'] || settings.apigee_endpoint
   end
-  @client ||= Twitter::Client.new
+  @client ||= Twitter::Client.new(:oauth_token => session[:oauth]['access_token'], :oauth_token_secret =>session[:oauth]['access_secret'])
 end
 
-get '/login' do
-  request_token = @oauth_consumer.get_request_token(:oauth_callback => @oauth_callback)
-  session[:oauth]['request_token'] = request_token.token
-  session[:oauth]['request_secret'] = request_token.secret
-  redirect request_token.authorize_url
+# OAUTH 
+get '/auth/:provider/callback' do
+  auth = request.env["omniauth.auth"]
+  session[:oauth]['access_token'] = auth['credentials']['token']
+  session[:oauth]['access_secret'] = auth['credentials']['secret']
+  logger.info client.inspect
+  user = client.verify_credentials       
+  redirect '/'
 end
-    
-get '/auth' do
-  request_token = OAuth::RequestToken.new(@oauth_consumer, session[:oauth]['request_token'], session[:oauth]['request_secret'])
-  access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
-  session[:oauth]['access_token'] = access_token.token
-  session[:oauth]['access_secret'] = access_token.secret
-  user = client.verify_credentials
-  redirect "/"
+
+get '/auth/failure' do
+  erb "<h1>Authentication Failed:</h1><h3>message:<h3> <pre>#{params}</pre>"
+end
+
+get '/auth/:provider/deauthorized' do
+  erb "#{params[:provider]} has deauthorized this app."
+end
+
+get '/protected' do
+  throw(:halt, [401, "Not authorized\n"]) unless session[:authenticated]
+  erb "<pre>#{request.env['omniauth.auth'].to_json}</pre><hr>
+       <a href='/logout'>Logout</a>"
 end
 
 get "/logout" do
   logger.info "/logout"
-  session[:oauth] = nil
-  session.clear
+  session[:oauth] = false
+  session[:authenticated] = false
   @client = ""
   redirect "/"
 end
-
   
 get '/' do
   File.read(File.join('public', 'index.html'))
 end
 
+# Twitter API 
 #Get logged in user information
 get '/user' do
   begin
@@ -80,9 +90,7 @@ get '/user' do
     current_user.attrs['attrs'].to_json
   
   rescue Twitter::Error => e
-    content_type :json
-    status 401
-    {:result => 'error', :message => e.message}.to_json
+    error_response e
   end
 end
 
@@ -106,7 +114,7 @@ post '/lists/:user_name' do
   end
 end
 
-#Get user's lists
+#Get lists for a specific user
 get '/lists/:user_name' do
   begin
     user_name = params[:user_name]
@@ -156,7 +164,12 @@ put '/lists/:user_id/:list_id' do
   end
 end
 
+#put '/list/:list_id/
+#post '/list/:list_id/:user_id'
+#delete '/list/:list_id/:user_id'
+
 #Delete a list
+#delete'/lists/:list_id
 delete '/lists/:user_id/:list_id' do
   begin
     user_id = params["user_id"]
@@ -172,7 +185,8 @@ delete '/lists/:user_id/:list_id' do
   end
 end
 
-#Get members from list
+#Get list members
+#get 'list/:list_id/
 get '/list/members/' do
   begin
     user = params[:user].to_s
@@ -191,7 +205,7 @@ get '/list/members/' do
   end
 end
 
-#Get the list of all user's friends
+#Get the friends for a specific user
 get '/friends/:user_id' do
   begin
     user_id = params[:user_id]
@@ -222,11 +236,4 @@ get '/users/:user_id' do
   rescue Twitter::Error => e
     error_response e
   end
-end
-
-#Generic error response
-def error_response(error)
-  content_type :json
-  status 400
-  {:result => 'error', :message => error.message}.to_json
 end

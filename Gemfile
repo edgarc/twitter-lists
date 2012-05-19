@@ -1,8 +1,9 @@
 source :rubygems
 
-gem 'twitter', '2.0.0'
-gem 'json', '1.6.5'
-gem 'oauth', '0.4.5'
+gem 'twitter'
+gem 'json'
+gem 'omniauth'
+gem 'omniauth-twitter'
 gem 'sinatra', '1.3.2'
 gem 'sinatra-contrib'
 gem 'newrelic_rpm'

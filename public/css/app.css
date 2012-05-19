@@ -1,10 +1,30 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+/* Tweak navbar brand link to be super sleek
+-------------------------------------------------- */
+.navbar-fixed-top .brand {
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 20px;
+  float: right;
+  font-weight: bold;
+  color: #000;
+  text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+  -webkit-transition: all .2s linear;
+     -moz-transition: all .2s linear;
+          transition: all .2s linear;
+}
+.navbar-fixed-top .brand:hover {
+  text-decoration: none;
+}
+
+
 h1.list-title{
 	display: inline-block;
 	overflow: hidden;
-/*	max-width: 160px;
-	white-space: nowrap;
-	text-overflow: ellipsis
-*/
 }
 
 h2 small {
@@ -19,10 +39,6 @@ h2 small {
 .private{
 	color: #B94A48;
 }
-
-/*.list-name{
-	height: 69px;
-}*/
 
 .display{
 	display: inline;
@@ -53,8 +69,7 @@ img.twitter-profile{
 	color: #468847;
 }
 
-.editing .display,
-.list .edit {
+.editing .display, .list .edit {
     display: none;
  }
 

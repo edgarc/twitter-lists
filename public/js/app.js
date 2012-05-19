@@ -11,7 +11,7 @@ App.Utils.dispatcher = _.clone(Backbone.Events)
 
 App.Routers.TwitterLists = Backbone.Router.extend({
     routes: {
-        "index": "index"
+        "main*": "index"
     },
 
     initialize: function(options) {
@@ -79,4 +79,11 @@ function twitterify(){
 
 function logOut(){
 	window.location = "/logout"
+}
+
+function replaceUser(twitterScreenName){
+	App.Models.currentUser.set("screen_name", twitterScreenName);
+	$("#list-container").html("");
+	$("#friends-container").html("");
+	App.Collections.twitterLists.fetch();
 }
