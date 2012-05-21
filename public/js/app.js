@@ -80,10 +80,3 @@ function twitterify(){
 function logOut(){
 	window.location = "/logout"
 }
-
-function replaceUser(twitterScreenName){
-	App.Models.currentUser.set("screen_name", twitterScreenName);
-	$("#list-container").html("");
-	$("#friends-container").html("");
-	App.Collections.twitterLists.fetch();
-}

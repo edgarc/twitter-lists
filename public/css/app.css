@@ -1,3 +1,5 @@
+/* Header
+-------------------------------------------------- */
 body {
   padding-top: 60px;
   padding-bottom: 40px;
@@ -17,10 +19,10 @@ body {
      -moz-transition: all .2s linear;
           transition: all .2s linear;
 }
+
 .navbar-fixed-top .brand:hover {
   text-decoration: none;
 }
-
 
 h1.list-title{
 	display: inline-block;
@@ -30,6 +32,15 @@ h1.list-title{
 h2 small {
 	display:inline;
 	overflow: hidden;
+}
+
+img.twitter-profile{
+	width: 48px;
+	height: 48px;
+	border: 3px;
+	color: #B94A48;
+	border-style:solid;
+	border-radius: 5px;
 }
 
 .public	{
@@ -47,15 +58,6 @@ h2 small {
 .accordion-heading .accordion-toggle {
 	display: inline;
 	padding:0;
-}
-
-img.twitter-profile{
-	width: 48px;
-	height: 48px;
-	border: 3px;
-	color: #B94A48;
-	border-style:solid;
-	border-radius: 5px;
 }
 
 .avatar{
@@ -102,6 +104,11 @@ div.user{
 	cursor: move;
 }
 
+div.unlisted{
+	padding-top:90px;
+}
+
+
 .right-nav{
 	position: fixed;
 	top: 150px;
@@ -121,15 +128,19 @@ div.user{
 .edit-icon, .refresh{
 	display: none;
 }
+
 .edit .btn-group{
 	display: inline-block;
 }
+
 .stats{
 	font-style: italic;
 	font-size: 11px;
 	padding-left: 20px;
 }
 
+/* Loader
+-------------------------------------------------- */
 #loading {
   width: 100%;
   height: 100%;
@@ -151,6 +162,8 @@ div.user{
   z-index: 100;
 }
 
+/* Dragging
+-------------------------------------------------- */
 [draggable] {
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -164,8 +177,4 @@ div.user{
 
 .dragOverUnlink{
 	border: 1px dashed #B94A48;
-}
-
-.unlisted{
-	padding-top:90px;
 }

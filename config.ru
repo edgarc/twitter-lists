@@ -1,3 +1,2 @@
-require './twitter-list-app'
-
+require './app'
 run Sinatra::Application

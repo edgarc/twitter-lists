@@ -1,0 +1,453 @@
+<!DOCTYPE html>  <html> <head>   <title>app-views.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app-models.html">                 app-models.js               </a>                                           <a class="source" href="app-views.html">                 app-views.js               </a>                                           <a class="source" href="app.html">                 app.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               app-views.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre> <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">TweetUserView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+	<span class="nx">className</span><span class="o">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+	
+	<span class="nx">attributes</span><span class="o">:</span> <span class="p">{</span>
+		<span class="nx">draggable</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">template</span><span class="o">:</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#twitter-friends&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()),</span>
+	
+	<span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+		<span class="s2">&quot;dragstart&quot;</span><span class="o">:</span> <span class="s2">&quot;handleDragStart&quot;</span><span class="p">,</span>
+	<span class="p">},</span>
+	
+	<span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+	<span class="p">},</span>
+	
+	<span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">()));</span>
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">handleDragStart</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+		<span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">DragStartListId</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+		<span class="nx">e</span><span class="p">.</span><span class="nx">originalEvent</span><span class="p">.</span><span class="nx">dataTransfer</span><span class="p">.</span><span class="nx">setData</span><span class="p">(</span><span class="s1">&#39;Text&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+ <span class="p">});</span>
+
+ <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">ListView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+	
+	<span class="nx">className</span><span class="o">:</span> <span class="s2">&quot;list accordion-group span4&quot;</span><span class="p">,</span>
+	
+	<span class="nx">template</span><span class="o">:</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#twitter-list&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()),</span>
+	
+	<span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+		<span class="s2">&quot;click 		.title&quot;</span> 	<span class="o">:</span> <span class="s2">&quot;init&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;click 		.edit-icon&quot;</span>	<span class="o">:</span> <span class="s2">&quot;edit&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;click 		.refresh&quot;</span>	<span class="o">:</span> <span class="s2">&quot;refresh&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;keypress 	.list-input&quot;</span><span class="o">:</span> <span class="s2">&quot;updateOnEnter&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;keyup 		.list-input&quot;</span><span class="o">:</span> <span class="s2">&quot;updateOnEnter&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;click 		.close&quot;</span> 	<span class="o">:</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span>
+		
+		<span class="s2">&quot;dragenter 	.list-name&quot;</span> <span class="o">:</span> <span class="s2">&quot;handleDragEnter&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;dragover 	.list-name&quot;</span> <span class="o">:</span> <span class="s2">&quot;handleDragOver&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;dragleave 	.list-name&quot;</span> <span class="o">:</span> <span class="s2">&quot;handleDragLeave&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;drop 		.list-name&quot;</span> <span class="o">:</span> <span class="s2">&quot;handleDrop&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;dragend 	.list-name&quot;</span> <span class="o">:</span> <span class="s2">&quot;handleDragEnd&quot;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">initialized</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;destroy&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">comparator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+		  <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;following&quot;</span><span class="p">);</span>
+		<span class="p">};</span>
+		<span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">ListQueue</span><span class="p">[</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+		</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>load all list users </p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+    <span class="p">},</span>
+
+	<span class="nx">update</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">refresh</span><span class="p">();</span>
+	<span class="p">},</span>
+
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">()));</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">setListTypeDetails</span><span class="p">();</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.loader&quot;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">).</span><span class="nx">tooltip</span><span class="p">();</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+	
+	<span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">initialized</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">loadListUsers</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">initialized</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+	
+	<span class="nx">refresh</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.accordion-inner&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">loadListUsers</span><span class="p">();</span>
+	<span class="p">},</span>
+	
+	<span class="nx">setListTypeDetails</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">));</span>
+		<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;private&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.mode&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;icon-lock&quot;</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.label&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;label-important&quot;</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.btn-group .private&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;active&quot;</span><span class="p">);</span>
+		<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.mode&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;icon-eye-open&quot;</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.label&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;label-success&quot;</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.btn-group .public&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;active&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+
+	<span class="nx">addListMembers</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+			<span class="kd">var</span> <span class="nx">userModel</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+			<span class="kd">var</span> <span class="nx">userView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">TweetUserView</span><span class="p">({</span>
+				<span class="nx">model</span><span class="o">:</span><span class="nx">userModel</span><span class="p">,</span> <span class="nx">id</span><span class="o">:</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)</span>
+			<span class="p">});</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.accordion-inner&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">userView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+	
+	<span class="nx">checkListStatus</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="kd">var</span> <span class="nx">loaded</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">list</span> <span class="k">in</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">ListQueue</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">ListQueue</span><span class="p">[</span><span class="nx">list</span><span class="p">]</span> <span class="o">==</span> <span class="kc">false</span><span class="p">)</span> 
+				<span class="nx">loaded</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">loaded</span> <span class="o">==</span> <span class="kc">true</span><span class="p">)</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;lists_loaded&quot;</span><span class="p">);</span>
+	<span class="p">},</span>
+	
+	<span class="nx">getListMembers</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">collection</span><span class="p">,</span> <span class="nx">response</span><span class="p">){</span>
+		<span class="kd">var</span> <span class="nx">cursor</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">next_cursor_str</span><span class="p">;</span>
+		<span class="kd">var</span> <span class="nx">slug</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;slug&quot;</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">).</span><span class="nx">screen_name</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>fetch through twitter results cursor</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="k">if</span> <span class="p">(</span> <span class="nx">cursor</span> <span class="o">!=</span> <span class="s2">&quot;0&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">cursor</span> <span class="o">!=</span> <span class="kc">undefined</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">fetch</span><span class="p">({</span>
+				<span class="nx">data</span><span class="o">:</span> <span class="nx">$</span><span class="p">.</span><span class="nx">param</span><span class="p">({</span> <span class="nx">cursor</span><span class="o">:</span> <span class="nx">cursor</span><span class="p">,</span> <span class="nx">slug</span><span class="o">:</span> <span class="nx">slug</span><span class="p">,</span> <span class="nx">user</span><span class="o">:</span><span class="nx">user</span><span class="p">}),</span>
+				<span class="nx">add</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+				<span class="nx">success</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getListMembers</span>
+			<span class="p">});</span>
+		<span class="p">}</span><span class="k">else</span><span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>once ready lets add the members</p>             </td>             <td class="code">               <div class="highlight"><pre>			<span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">ListQueue</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">checkListStatus</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">addListMembers</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.loader&quot;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.collapse&quot;</span><span class="p">).</span><span class="nx">collapse</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">},</span> 
+	
+	<span class="nx">loadListUsers</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>reset modifiers</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span> <span class="nx">new_user_id</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">});</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span> <span class="nx">unlink_user_id</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">});</span>
+		
+		<span class="kd">var</span> <span class="nx">slug</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;slug&quot;</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">).</span><span class="nx">screen_name</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.loader&quot;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">fetch</span><span class="p">({</span>
+			<span class="nx">data</span><span class="o">:</span> <span class="nx">$</span><span class="p">.</span><span class="nx">param</span><span class="p">({</span> <span class="nx">slug</span><span class="o">:</span> <span class="nx">slug</span><span class="p">,</span> <span class="nx">user</span><span class="o">:</span><span class="nx">user</span><span class="p">}),</span>
+			<span class="nx">success</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getListMembers</span>
+		<span class="p">});</span>
+	<span class="p">},</span>
+	
+	<span class="nx">edit</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;editing&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.list-input&#39;</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+	<span class="p">},</span>
+	
+	<span class="nx">updateOnEnter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span> <span class="o">==</span> <span class="mi">27</span><span class="p">)</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;editing&quot;</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+	<span class="p">},</span>
+	
+	<span class="nx">close</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="kd">var</span> <span class="nx">new_name</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.list-input&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+		<span class="kd">var</span> <span class="nx">new_mode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;button.active&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="nx">new_name</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="nx">new_mode</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">)){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">save</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="nx">new_name</span><span class="p">,</span> <span class="nx">mode</span><span class="o">:</span><span class="nx">new_mode</span><span class="p">},</span> <span class="p">{</span><span class="nx">success</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">});</span>
+		<span class="p">}</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;editing&quot;</span><span class="p">);</span>
+	<span class="p">},</span>
+	
+	<span class="k">delete</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
+	<span class="p">},</span>
+	
+	<span class="nx">remove</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+	<span class="p">},</span>
+	
+ 	<span class="nx">cancel</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+	  <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">)</span> <span class="p">{</span>
+	    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+	  <span class="p">}</span>
+	  <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">handleDragOver</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">)</span> <span class="p">{</span>
+		    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span> <span class="c1">// Necessary. Allows us to drop.</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span><span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">DragStartListId</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list-name&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;dragOver&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">DragStartListId</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list-name&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;dragOverUnlink&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">handleDragEnter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">)</span> <span class="p">{</span>
+		    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+		  <span class="p">}</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">DragStartListId</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list-name&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;dragOver&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">DragStartListId</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list-name&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;dragOverUnlink&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">handleDragLeave</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list-name&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;dragOver&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list-name&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;dragOverUnlink&quot;</span><span class="p">);</span>
+	<span class="p">},</span>
+	
+	<span class="nx">handleDrop</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">)</span> <span class="p">{</span>
+		    <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span> <span class="c1">// Stops some browsers from redirecting.</span>
+		<span class="p">}</span>
+
+		<span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">originalEvent</span><span class="p">.</span><span class="nx">dataTransfer</span><span class="p">.</span><span class="nx">getData</span><span class="p">(</span><span class="s1">&#39;Text&#39;</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">params</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">userId</span><span class="o">=</span><span class="nx">params</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+		<span class="kd">var</span> <span class="nx">listId</span><span class="o">=</span><span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">listId</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)){</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>fix this hack where sending the new<em>user</em>id</p>             </td>             <td class="code">               <div class="highlight"><pre>			<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span> <span class="nx">new_user_id</span><span class="o">:</span> <span class="nx">userId</span><span class="p">});</span> 
+			<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span> <span class="s2">&quot;new_user_id&quot;</span><span class="p">,</span> <span class="nx">userId</span><span class="p">,</span> <span class="p">{</span>
+				<span class="nx">success</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">dropSuccess</span><span class="p">,</span>
+				<span class="nx">error</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+					<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">);</span>
+			<span class="p">}});</span>
+			
+		<span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">listId</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)){</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>fix this hack where sending the new<em>user</em>id</p>             </td>             <td class="code">               <div class="highlight"><pre>			<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span> <span class="nx">unlink_user_id</span><span class="o">:</span> <span class="nx">userId</span><span class="p">});</span> 
+			<span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span> <span class="s2">&quot;unlink_user_id&quot;</span><span class="p">,</span> <span class="nx">userId</span><span class="p">,</span> <span class="p">{</span>
+				<span class="nx">success</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">loadListUsers</span><span class="p">,</span>
+				<span class="nx">error</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+					<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">);</span>
+			<span class="p">}});</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+	
+	<span class="nx">handleDragEnd</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list-members&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;dragOver&quot;</span><span class="p">);</span>
+	<span class="p">},</span>
+	
+	<span class="nx">dropSuccess</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+		<span class="nx">listedUser</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;new_user_id&quot;</span><span class="p">);</span>
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#unlisted #&quot;</span><span class="o">+</span><span class="nx">listedUser</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">loadListUsers</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">})</span>
+
+ <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">TwitterListsView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+	<span class="nx">template</span><span class="o">:</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#twitter-lists-template&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()),</span>
+	
+    <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#content&quot;</span><span class="p">),</span>
+
+	<span class="nx">className</span><span class="o">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+	
+	<span class="nx">events</span><span class="o">:</span><span class="p">{</span>
+		<span class="s2">&quot;click #newlist&quot;</span>	<span class="o">:</span> <span class="s2">&quot;addNewList&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;click #expand&quot;</span>		<span class="o">:</span> <span class="s2">&quot;expandLists&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;click #collapse&quot;</span>	<span class="o">:</span> <span class="s2">&quot;collapseLists&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;click #show&quot;</span>		<span class="o">:</span> <span class="s2">&quot;filterLists&quot;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">collection</span> <span class="o">=</span> <span class="nx">options</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;reset&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">sort</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+
+	<span class="nx">addNewList</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">){</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>var newList = new App.Views.NewListView();</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">newList</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+	<span class="p">},</span>
+
+	<span class="nx">filterLists</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="kd">var</span> <span class="nx">param</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">);</span>
+		<span class="k">switch</span><span class="p">(</span><span class="nx">param</span><span class="p">){</span>
+			<span class="k">case</span> <span class="s2">&quot;all&quot;</span><span class="o">:</span>
+				<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list.private&quot;</span><span class="p">).</span><span class="nx">show</span><span class="p">()</span>
+				<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list.public&quot;</span><span class="p">).</span><span class="nx">show</span><span class="p">()</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="k">case</span> <span class="s2">&quot;public&quot;</span><span class="o">:</span>
+				<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list.private&quot;</span><span class="p">).</span><span class="nx">hide</span><span class="p">()</span>
+				<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list.public&quot;</span><span class="p">).</span><span class="nx">show</span><span class="p">()</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="k">case</span> <span class="s2">&quot;private&quot;</span><span class="o">:</span>
+				<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list.private&quot;</span><span class="p">).</span><span class="nx">show</span><span class="p">()</span>
+				<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.list.public&quot;</span><span class="p">).</span><span class="nx">hide</span><span class="p">()</span>
+				<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+	
+	<span class="nx">expandLists</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.collapse&quot;</span><span class="p">).</span><span class="nx">collapse</span><span class="p">(</span><span class="s2">&quot;show&quot;</span><span class="p">);</span>
+	<span class="p">},</span>
+	
+	<span class="nx">collapseLists</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.collapse&quot;</span><span class="p">).</span><span class="nx">collapse</span><span class="p">(</span><span class="s2">&quot;hide&quot;</span><span class="p">);</span>
+	<span class="p">},</span>
+	
+	<span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">());</span>
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">},</span>
+
+    <span class="nx">addOne</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">list</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">ListView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span> <span class="nx">list</span><span class="p">});</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#list-container&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">view</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span><span class="p">);</span>
+    <span class="p">},</span>
+
+	<span class="nx">sort</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">comparator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">list</span><span class="p">)</span> <span class="p">{</span>
+		  <span class="k">return</span> <span class="o">-</span><span class="nx">list</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;member_count&quot;</span><span class="p">);</span>
+		<span class="p">};</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#list-title .total&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">sort</span><span class="p">({</span><span class="nx">silent</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">addOne</span><span class="p">);</span>
+		
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#list-container&quot;</span> <span class="p">).</span><span class="nx">sortable</span><span class="p">({</span><span class="nx">cancel</span><span class="o">:</span> <span class="s2">&quot;.accordion-inner&quot;</span><span class="p">});</span>
+	<span class="p">}</span>
+	
+<span class="p">})</span>
+
+ <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">UnlistedFriendsView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+	<span class="nx">template</span><span class="o">:</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#unlisted-friends-template&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()),</span>
+	
+	<span class="nx">className</span><span class="o">:</span> <span class="s2">&quot;list accordion-group span3&quot;</span><span class="p">,</span>
+	
+	<span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#content&quot;</span><span class="p">),</span>
+	
+	<span class="nx">events</span><span class="o">:</span><span class="p">{</span>
+		<span class="s2">&quot;click #unlisted&quot;</span><span class="o">:</span> <span class="s2">&quot;findUnlistedFriends&quot;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">collection</span> <span class="o">=</span> <span class="nx">options</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;reset&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">addAll</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">initialized</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+
+	<span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">());</span>
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">},</span>
+
+    <span class="nx">addOne</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">friend</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">userView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">TweetUserView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">friend</span><span class="p">,</span> <span class="nx">id</span><span class="o">:</span><span class="s2">&quot;unlisted&quot;</span><span class="p">});</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#friends-container&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">userView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span><span class="p">);</span>
+    <span class="p">},</span>
+
+	<span class="nx">addAll</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">friends</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">unlistedUsers</span><span class="o">=</span><span class="nx">friends</span><span class="p">.</span><span class="nx">length</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#unlisted .total&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot; (&quot;</span><span class="o">+</span><span class="nx">unlistedUsers</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+		<span class="nx">friends</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">addOne</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">initialized</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.collapse&quot;</span><span class="p">).</span><span class="nx">collapse</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+	<span class="nx">findUnlistedFriends</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="k">this</span><span class="p">.</span><span class="nx">initialized</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+			<span class="nx">unlisted</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="kd">var</span> <span class="nx">friends</span><span class="o">=</span> <span class="p">[];</span> 
+			<span class="nx">friends</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Models</span><span class="p">.</span><span class="nx">friends</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;ids&quot;</span><span class="p">);</span>
+			<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">friends</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+		 		<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="k">this</span><span class="p">.</span><span class="nx">isUserOnList</span><span class="p">(</span><span class="nx">friends</span><span class="p">[</span><span class="nx">i</span><span class="p">])){</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="nx">id</span><span class="o">:</span> <span class="nx">friends</span><span class="p">[</span><span class="nx">i</span><span class="p">]});</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">fetch</span><span class="p">()</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+
+	<span class="nx">isUserOnList</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">userId</span><span class="p">){</span>
+		<span class="kd">var</span> <span class="nx">found</span><span class="o">=</span><span class="kc">false</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">App</span><span class="p">.</span><span class="nx">Collections</span><span class="p">.</span><span class="nx">twitterLists</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+			<span class="kd">var</span> <span class="nx">listUsers</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Collections</span><span class="p">.</span><span class="nx">twitterLists</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">users</span><span class="p">;</span>
+			<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">j</span><span class="o">&lt;</span><span class="nx">listUsers</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">j</span><span class="o">++</span><span class="p">){</span>
+				<span class="k">if</span> <span class="p">(</span><span class="nx">userId</span><span class="o">==</span><span class="nx">listUsers</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">j</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;id_str&quot;</span><span class="p">)){</span>
+					<span class="nx">found</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="nx">found</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">})</span>
+
+ <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">NewListView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+	<span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#new-list-modal&quot;</span><span class="p">),</span>
+	
+	<span class="nx">events</span><span class="o">:</span><span class="p">{</span>
+		<span class="s2">&quot;click #cancel&quot;</span> <span class="o">:</span> <span class="s2">&quot;cancel&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;click #save&quot;</span> 	<span class="o">:</span> <span class="s2">&quot;save&quot;</span>
+	<span class="p">},</span>
+	
+	<span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="p">},</span>
+
+	<span class="nx">show</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">modal</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">);</span>
+	<span class="p">},</span>
+
+	<span class="nx">cancel</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">modal</span><span class="p">(</span><span class="s1">&#39;hide&#39;</span><span class="p">);</span>
+	<span class="p">},</span>
+	
+	<span class="nx">save</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="kd">var</span> <span class="nx">listName</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;input.list-input&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+		<span class="kd">var</span> <span class="nx">listMode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;button.active&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span>
+		<span class="kd">var</span> <span class="nx">newList</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Models</span><span class="p">.</span><span class="nx">TwitterList</span><span class="p">();</span>
+		</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>do this here cause if i do it at the model it overrides the collection functionality to update and delete</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="nx">newList</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="s2">&quot;lists/&quot;</span><span class="o">+</span><span class="nx">App</span><span class="p">.</span><span class="nx">Models</span><span class="p">.</span><span class="nx">currentUser</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;screen_name&quot;</span><span class="p">);</span>
+		<span class="nx">newList</span><span class="p">.</span><span class="nx">save</span><span class="p">({</span>
+			<span class="nx">name</span><span class="o">:</span> <span class="nx">listName</span><span class="p">,</span>
+			<span class="nx">mode</span><span class="o">:</span> <span class="nx">listMode</span>
+		<span class="p">},</span>
+		<span class="p">{</span>
+			<span class="nx">success</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">onListCreated</span><span class="p">,</span>
+			<span class="nx">error</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">});</span>
+	<span class="p">},</span>
+	
+	<span class="nx">onListCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+		<span class="kd">var</span> <span class="nx">newListModel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Models</span><span class="p">.</span><span class="nx">TwitterList</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
+		<span class="nx">App</span><span class="p">.</span><span class="nx">Collections</span><span class="p">.</span><span class="nx">twitterLists</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">newListModel</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">ListView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span> <span class="nx">newListModel</span><span class="p">});</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#list-container&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">view</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span><span class="p">);</span>
+		<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">modal</span><span class="p">(</span><span class="s1">&#39;hide&#39;</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="p">})</span>
+
+ <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">ProfileView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+	<span class="nx">template</span><span class="o">:</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#user-details-template&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()),</span>
+	
+	<span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+	
+	<span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#top-nav&quot;</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">()));</span>
+	<span class="p">}</span>
+<span class="p">});</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
